@@ -1,3 +1,4 @@
+using CarBill.bussinesData;
 using CarBill.Data;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -14,6 +15,12 @@ namespace CarBill
             var connectionString = builder.Configuration.GetConnectionString("DefaultConnection") ?? throw new InvalidOperationException("Connection string 'DefaultConnection' not found.");
             builder.Services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(connectionString));
+
+            // this for configure the bussinesDBCOntext class to inject the data from the database 
+            var connectionString_2 = builder.Configuration.GetConnectionString("bussinesConnection") ?? throw new InvalidOperationException("Connection string 'DefaultConnection' not found.");
+            builder.Services.AddDbContext<bussinesContext>(options =>
+                options.UseSqlServer(connectionString_2));
+
             builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
             builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
