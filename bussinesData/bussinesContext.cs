@@ -20,7 +20,6 @@ namespace CarBill.bussinesData
         public virtual DbSet<Bill> Bills { get; set; } = null!;
         public virtual DbSet<BillRow> BillRows { get; set; } = null!;
         public virtual DbSet<BillRowImage> BillRowImages { get; set; } = null!;
-        public virtual DbSet<BillsPart> BillsParts { get; set; } = null!;
         public virtual DbSet<Car> Cars { get; set; } = null!;
         public virtual DbSet<MaintananceType> MaintananceTypes { get; set; } = null!;
         public virtual DbSet<SparePart> SpareParts { get; set; } = null!;
@@ -76,6 +75,7 @@ namespace CarBill.bussinesData
                 entity.Property(e => e.Amount).HasColumnName("amount");
 
                 entity.Property(e => e.BillId).HasColumnName("bill_id");
+                entity.Property(e => e.sparePartId).HasColumnName("sparePart_id");
 
                 entity.Property(e => e.TotalPriceForBillRow)
                     .HasColumnType("decimal(18, 2)")
@@ -86,6 +86,12 @@ namespace CarBill.bussinesData
                     .HasForeignKey(d => d.BillId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_billRow_bill");
+
+                entity.HasOne(d => d.sparePart)
+                    .WithMany(p => p.billRows)
+                    .HasForeignKey(d => d.sparePartId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_billRow_sparePart");
             });
 
             modelBuilder.Entity<BillRowImage>(entity =>
@@ -103,27 +109,6 @@ namespace CarBill.bussinesData
                     .HasForeignKey(d => d.BillRowId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_billRowImages_billRow");
-            });
-
-            modelBuilder.Entity<BillsPart>(entity =>
-            {
-                entity.Property(e => e.Id).HasColumnName("id");
-
-                entity.Property(e => e.BillRowId).HasColumnName("billRow_id");
-
-                entity.Property(e => e.SparePartId).HasColumnName("sparePart_id");
-
-                entity.HasOne(d => d.BillRow)
-                    .WithMany(p => p.BillsParts)
-                    .HasForeignKey(d => d.BillRowId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_BillsParts_billRow");
-
-                entity.HasOne(d => d.SparePart)
-                    .WithMany(p => p.BillsParts)
-                    .HasForeignKey(d => d.SparePartId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_BillsParts_sparePart");
             });
 
             modelBuilder.Entity<Car>(entity =>

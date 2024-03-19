@@ -7,7 +7,7 @@ namespace CarBill.bussinesData.Models
     {
         public SparePart()
         {
-            BillsParts = new HashSet<BillsPart>();
+            billRows = new HashSet<BillRow>();
         }
 
         public int Id { get; set; }
@@ -18,6 +18,6 @@ namespace CarBill.bussinesData.Models
         public decimal Price { get; set; }
 
         public virtual MaintananceType Type { get; set; } = null!;
-        public virtual ICollection<BillsPart> BillsParts { get; set; }
+        public virtual ICollection<BillRow> billRows { get; set; }
     }
 }
