@@ -1,0 +1,33 @@
+﻿<h2>الفواتير السابقة...</h2>
+
+
+
+
+@* @model List<message> *@
+
+
+<table class="table table-hover" style="margin-bottom: 650px;">
+    <thead>
+        <tr class="row-cols-3 table-warning">
+            <th class="col-3" scope="col">رقم لوحة السيارة</th>
+            <th class="col-3" scope="col">اجمالي الفاتوره</th>
+            <th class="col-3" scope="col">اسم السائق</th>
+            <th style="text-align: center;" class="col-3" scope="col">المزيد</th>
+        </tr>
+    </thead>
+    <tbody>
+        @* @foreach (var item in Model)
+        {
+            <tr>
+                <td style="font-size: 14px;">@item.time</td>
+                <td>@item.name</td>
+                <td style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width:50px;">
+                    @item.Message
+                </td>
+                <td class="d-flex justify-content-center" style="text-align: center;">
+                    <a class="btn btn-primary btn-sm m-1" href="Messages_details/@item.id">التفاصيل</a>
+                </td>
+            </tr>
+        } *@
+    </tbody>
+</table>

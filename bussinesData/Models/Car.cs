@@ -16,6 +16,7 @@ namespace CarBill.bussinesData.Models
         public string? Color { get; set; }
         public string? Symbol { get; set; }
         public string? LastReading { get; set; }
+        public string? driverName { get; set; }
 
         public virtual ICollection<Bill> Bills { get; set; }
     }

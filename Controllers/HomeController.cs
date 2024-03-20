@@ -22,6 +22,12 @@ namespace CarBill.Controllers
             return View();
         }
 
+        public IActionResult yourBills()
+        {
+
+            return View();
+        }
+
         public IActionResult Privacy()
         {
             return View();

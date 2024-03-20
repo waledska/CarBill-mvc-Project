@@ -132,6 +132,10 @@ namespace CarBill.bussinesData
                     .HasColumnName("plate_num");
 
                 entity.Property(e => e.Symbol).HasColumnName("symbol");
+
+                entity.Property(e => e.driverName)
+                    .HasMaxLength(100)
+                    .HasColumnName("driver_name");
             });
 
             modelBuilder.Entity<MaintananceType>(entity =>
