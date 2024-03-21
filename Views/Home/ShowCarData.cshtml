@@ -1,5 +1,5 @@
-﻿@using CarBill.bussinesData.Models;
-@model Car
+﻿@using CarBill.vm;
+@model BillFormData
 
 @* asp-action="addNewProject" *@
 
@@ -12,7 +12,7 @@
             <div class="row mb-3">
                 <label for="carCode" class="col-sm-2 col-form-label">كود السيارة</label>
                 <div class="col-sm-10">
-                    <input type="text" asp-for="Id" class="form-control" id="carCode" required>
+                    <input type="text" asp-for="carData.Id" class="form-control" id="carCode" required>
                     <div class="d-flex justify-content-center" style="text-align: center;">
                         <button type="button" id="showCarData" class="btn btn-outline-primary btn-sm m-1">اظهار بيانات السيارة</button>
                     </div>
@@ -21,43 +21,171 @@
             <div class="row mb-3">
                 <label for="description" class="col-sm-2 col-form-label">رقم اللوحة</label>
                 <div class="col-sm-10">
-                    <input type="text" class="form-control" asp-for="PlateNum" disabled>
+                    <input type="text" class="form-control" asp-for="carData.PlateNum" disabled>
                 </div>
             </div>
             <div class="row mb-3">
                 <label for="location" class="col-sm-2 col-form-label">الماركة</label>
                 <div class="col-sm-10">
-                    <input type="text" class="form-control" asp-for="Brand" disabled>
+                    <input type="text" class="form-control" asp-for="carData.Brand" disabled>
                 </div>
             </div>
             <div class="row mb-3">
                 <label for="date" class="col-sm-2 col-form-label">اللون</label>
                 <div class="col-sm-10">
-                    <input type="text" class="form-control" asp-for="Color" disabled>
+                    <input type="text" class="form-control" asp-for="carData.Color" disabled>
                 </div>
             </div>
             <div class="row mb-3">
                 <label class="col-sm-2 col-form-label">رمز السيارة</label>
                 <div class="col-sm-10">
-                    <input type="text" class="form-control" asp-for="Symbol" disabled>
+                    <input type="text" class="form-control" asp-for="carData.Symbol" disabled>
                 </div>
             </div>
             <div class="row mb-3">
                 <label for="imageUpload" class="col-sm-2 col-form-label">السائق</label>
                 <div class="col-sm-10">
-                    <input type="text" class="form-control" asp-for="driverName" disabled>
-            </div>
-            </div>
-            <div class="row mb-3">
-            <label for="imageUpload" class="col-sm-2 col-form-label">اخر قراءة عداد</label>
-            <div class="col-sm-10">
-                <input type="text" class="form-control" asp-for="LastReading" disabled>
-                <div class="d-flex justify-content-center" style="text-align: center;">
-                    <button type="button" id="" class="btn btn-outline-primary btn-sm m-3">اظهار قطع الغيار لنفس قسم نوع الصيانه</button>
+                    <input type="text" class="form-control" asp-for="carData.driverName" disabled>
                 </div>
             </div>
+
+            
+
+            <div class="row mb-3">
+                <label for="imageUpload" class="col-sm-2 col-form-label">اخر قراءة عداد</label>
+                <div class="col-sm-10">
+                    <div class="d-flex justify-content-center" style="text-align: center;">
+                        <input type="text" class="form-control" asp-for="carData.LastReading" disabled>
+                    </div>
+                </div>
             </div>
-           
+
+            <div class="row mb-3">
+                <label for="imageUpload" class="col-sm-2 col-form-label">قراءة العداد الحالية</label>
+                <div class="col-sm-10">
+                    <input type="text" class="form-control" asp-for="additionBillData.currentReading">
+                </div>
+            </div>
+
+            <div class="row mb-3">
+                <label for="imageUpload" class="col-sm-2 col-form-label">ملاحظات</label>
+                <div class="col-sm-10">
+                    <input type="text" class="form-control" asp-for="additionBillData.comment">
+                </div>
+            </div>
+
+            <div class="row mb-3">
+                <label for="imageUpload" class="col-sm-2 col-form-label">فترة الصيانة</label>
+                <div class="col-sm-10">
+                    <input type="text" class="form-control" asp-for="additionBillData.maintancePeriod" *@>
+                </div>
+            </div>
+
+            <div class="row mb-3">
+                <label for="imageUpload" class="col-sm-2 col-form-label">نوع قسم الصيانة</label>
+                <div class="col-sm-10">
+                    @* <select class="form-control" id="roleDropdown">
+                        @foreach (var item in Model.cats)
+                        {
+                            <option value="@item.Id">@item.Name</option>
+                        }
+                    </select> *@
+                    <select class="form-control" id="categoryDropdown">
+                        @foreach (var item in Model.cats)
+                        {
+                            <option value="@item.Id">@item.Name</option>
+                        }
+                    </select>
+                </div>
+            </div>
+            
+            @* <table class="table table-hover" style="margin-bottom: 50px;">
+                <thead>
+                    <tr class="table-warning">
+                        <th scope="col">الاسم</th>
+                        <th scope="col">سعر القطعة</th>
+                        <th style="text-align: center;" scope="col">سعر مصنعية التركيب</th>
+                        <th style="text-align: center;" scope="col">صورة مصغرة</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model.sparePartsWithCat)
+                    {
+                        <tr>
+                            <td style="font-size: 16px; font-weight: bold;">@item.Name</td>
+
+                            <td style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 100px;">
+                                @item.Price
+                            </td>
+
+                            <td style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 150px; text-align: center;">
+                                @item.PriceOfInstaling
+                            </td>
+
+                            <td class="d-flex justify-content-center align-items-center" style="text-align: center;">
+                                <img src="/images/@item.ImageUrl" alt="@item.Name" style="max-height: 50px; max-width: 50px;">
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+            *@
+            <table class="table table-hover" id="sparePartsTable" style="margin-bottom: 50px;">
+                <thead>
+                    <tr class="table-warning">
+                        <th scope="col">الاسم</th>
+                        <th scope="col">سعر القطعة</th>
+                        <th style="text-align: center;" scope="col">سعر مصنعية التركيب</th>
+                        <th style="text-align: center;" scope="col">صورة مصغرة</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- Spare parts data will be inserted here dynamically -->
+                </tbody>
+            </table>
+
+            @* the second table *@
+            <table class="table table-hover" id="selectedSparePartsTable" style="margin-bottom: 50px;">
+                <thead>
+                    <tr class="table-success">
+                        <th scope="col">اسم القطعة</th>
+                        <th scope="col">عدد القطع</th>
+                        <th scope="col">سعر القطعة</th>
+                        <th scope="col">سعر مصنعية التركيب</th>
+                        <th scope="col">السعر الإجمالي</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- Selected spare parts will be inserted here dynamically -->
+                </tbody>
+            </table>
+            @* //////////////////////////// *@
+            <div id="totalsContainer">
+                <div class="row mb-3">
+                    <label for="totalAmount" class="col-sm-2 col-form-label">الاجمالي</label>
+                    <div class="col-sm-10">
+                        <input type="text" class="form-control" id="totalAmount" disabled>
+                    </div>
+                </div>
+                <div class="row mb-3">
+                    <label for="installationFees" class="col-sm-2 col-form-label">مصنعيه التركيب</label>
+                    <div class="col-sm-10">
+                        <input type="text" class="form-control" id="installationFees" disabled>
+                    </div>
+                </div>
+                <div class="row mb-3">
+                    <label for="discountRate" class="col-sm-2 col-form-label">نسبه خصم</label>
+                    <div class="col-sm-10">
+                        <input type="number" class="form-control" id="discountRate" placeholder="Enter discount rate">
+                    </div>
+                </div>
+                <div class="row mb-3">
+                    <label for="netAmount" class="col-sm-2 col-form-label">الصافي</label>
+                    <div class="col-sm-10">
+                        <input type="text" class="form-control" id="netAmount" disabled>
+                    </div>
+                </div>
+            </div>
 
             <div class="row mb-3">
                 <div class="col-sm-10 offset-sm-2">
@@ -73,67 +201,6 @@
     </div>
 </div>
 
-
-<!-- Add this script at the end of your view -->
-<script>
-    // Function to update the carousel based on selected files
-    function updateCarousel() {
-        const fileInput = document.getElementById('fileInput');
-        const carouselInner = document.querySelector('.carousel-inner');
-        const carouselIndicators = document.querySelector('.carousel-indicators');
-
-        // Clear existing carousel items
-        carouselInner.innerHTML = '';
-        carouselIndicators.innerHTML = '';
-
-        // Loop through selected files
-        for (let i = 0; i < fileInput.files.length; i++) {
-            const file = fileInput.files[i];
-
-            // Create a new carousel item for each file
-            const carouselItem = document.createElement('div');
-            carouselItem.classList.add('carousel-item');
-
-            if (i === 0) {
-                carouselItem.classList.add('active');
-            }
-
-            const image = document.createElement('img');
-            image.style.maxWidth = '200px';
-            image.style.maxHeight = '200px';
-            image.classList.add('d-block', 'w-100');
-            image.alt = '...';
-
-            // Create a new carousel indicator
-            const indicator = document.createElement('button');
-            indicator.type = 'button';
-            indicator.dataset.bsTarget = '#carouselExampleIndicators';
-            indicator.dataset.bsSlideTo = i;
-
-            if (i === 0) {
-                indicator.classList.add('active');
-            }
-
-            // Append the image to the carousel item and indicator to the indicators list
-            carouselItem.appendChild(image);
-            carouselInner.appendChild(carouselItem);
-            carouselIndicators.appendChild(indicator);
-
-            // Read the selected file and set it as the image source
-            const reader = new FileReader();
-            reader.onload = function (e) {
-                image.src = e.target.result;
-            };
-            reader.readAsDataURL(file);
-        }
-    }
-
-    // Attach the updateCarousel function to the file input's change event
-    const fileInput = document.getElementById('fileInput');
-    fileInput.addEventListener('change', updateCarousel);
-</script>
-
-
 @* script for when the user click on show car data takes us to the right URL *@
 <script>
     document.getElementById('showCarData').addEventListener('click', function () {
@@ -147,6 +214,117 @@
 </script>
 
 
+@* when the user select from category the spare parts will update *@
+<script>
+    document.getElementById('categoryDropdown').addEventListener('change', function () {
+        var categoryId = this.value;
 
+        // Make an AJAX request to fetch spare parts related to the selected category
+        fetch('/Home/GetSparePartsByCategory?categoryId=' + categoryId)
+            .then(response => response.json())
+            .then(data => {
+                // Update the spare parts table with the fetched data
+                var tbody = document.querySelector('#sparePartsTable tbody');
+                tbody.innerHTML = '';
+
+                data.forEach(function (item) {
+                    var row = '<tr>' +
+                        '<td style="font-size: 16px; font-weight: bold;">' + item.name + '</td>' +
+                        '<td style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 100px;">' + item.price + '</td>' +
+                        '<td style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 150px; text-align: center;">' + item.priceOfInstaling + '</td>' +
+                        '<td class="d-flex justify-content-center align-items-center" style="text-align: center;">' +
+                        '<img src="/images/' + item.imageUrl + '" alt="..." style="max-height: 50px; max-width: 50px;">' +
+                        '</td>' +
+                        '</tr>';
+                    tbody.innerHTML += row;
+                });
+            })
+            .catch(error => console.error('Error fetching spare parts:', error));
+    });
+ 
+    // when the user click on the product add in the bill
+    document.querySelector('#sparePartsTable tbody').addEventListener('click', function (event) {
+        calculateTotals()
+        // Check if the clicked element is a row inside the tbody
+        var row = event.target.closest('tr');
+        if (row) {
+            var name = row.cells[0].innerText;
+            var price = parseFloat(row.cells[1].innerText);
+            var priceOfInstaling = parseFloat(row.cells[2].innerText);
+            
+
+            // Check if the item is already added
+            var existingRow = document.querySelector('#selectedSparePartsTable tbody tr[data-name="' + name + '"]');
+            if (existingRow) {
+                // Increase the quantity if the item is already added
+                var qtyInput = existingRow.querySelector('.qty-input');
+                qtyInput.value = parseInt(qtyInput.value) + 1;
+                updateRowTotalPrice(existingRow);
+            } else {
+                // Add new row to the selectedSparePartsTable
+                var tbody = document.querySelector('#selectedSparePartsTable tbody');
+                var newRow = '<tr data-name="' + name + '">' +
+                    '<td>' + name + '</td>' +
+                    '<td><input type="number" class="form-control qty-input" value="1" min="1" style="width: 60px;"></td>' +
+                    '<td>' + price.toFixed(2) + '</td>' +
+                    '<td>' + priceOfInstaling.toFixed(2) + '</td>' +
+                    '<td class="total-price"></td>' +
+                    '</tr>';
+                tbody.innerHTML += newRow;
+                updateRowTotalPrice(tbody.lastElementChild);
+                //calculateTotals();
+            }
+        }
+    });
+
+
+    function updateRowTotalPrice(row) {
+        var qty = parseInt(row.querySelector('.qty-input').value);
+        var price = parseFloat(row.cells[2].innerText);
+        var priceOfInstaling = parseFloat(row.cells[3].innerText);
+        var totalPrice = qty * (price + priceOfInstaling);
+        row.querySelector('.total-price').innerText = totalPrice.toFixed(2);
+    }
+
+    // Event listener for quantity change
+    document.addEventListener('change', function (e) {
+        if (e.target && e.target.matches('.qty-input')) {
+            var row = e.target.closest('tr');
+            updateRowTotalPrice(row);
+        }
+    });
+
+    function calculateTotals() {
+        let totalAmount = 0;
+        let installationFees = 0;
+
+        // Iterate over each row in the selectedSparePartsTable to calculate the total
+        document.querySelectorAll('#selectedSparePartsTable tbody tr').forEach(row => {
+            const qty = parseInt(row.querySelector('.qty-input').value);
+            const price = parseFloat(row.cells[2].innerText);
+            const installationFee = parseFloat(row.cells[3].innerText);
+
+            totalAmount += qty * price;
+            installationFees += qty * installationFee;
+        });
+
+        const total = totalAmount + installationFees;
+        document.getElementById('totalAmount').value = total.toFixed(2);
+        document.getElementById('installationFees').value = installationFees.toFixed(2);
+
+        // Calculate discount and net amount
+        const discountRate = parseFloat(document.getElementById('discountRate').value) || 0;
+        const discountAmount = total * (discountRate / 100);
+        const netAmount = total - discountAmount;
+
+        document.getElementById('netAmount').value = netAmount.toFixed(2);
+    }
+
+    // Listen for changes in the discount rate to recalculate totals
+    document.getElementById('discountRate').addEventListener('change', calculateTotals);
+
+    // You should also call calculateTotals() after updatingRowTotalPrice() in your existing script
+
+</script>
 
 
