@@ -22,11 +22,22 @@ namespace CarBill.Controllers
             return View();
         }
 
+        // get end points format => APIName/id
+        public ActionResult ShowCarData(int id)
+        {
+            // get the carData
+            var carData = _db.Cars.FirstOrDefault(i => i.Id == id);
+
+            return View(carData);
+        }
+
         public IActionResult yourBills()
         {
 
             return View();
         }
+
+
 
         public IActionResult Privacy()
         {
