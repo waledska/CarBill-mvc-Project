@@ -37,18 +37,26 @@ namespace CarBill.Controllers
             var Cats = _db.MaintananceTypes.ToList();
             billFormData.cats = Cats;
 
-            // get the spare Parts
-            var spareParts = _db.SpareParts.Include(s => s.Type).ToList();
-            billFormData.sparePartsWithCat = spareParts;
 
             return View(billFormData);
         }
 
-        // API endpoint
+        // APIs endpoint
         public ActionResult GetSparePartsByCategory(int categoryId)
         {
             var spareParts = _db.SpareParts.Where(sp => sp.TypeId == categoryId).ToList();
             return Ok(spareParts);
+        }
+
+        [HttpPost]
+        public ActionResult SaveNewBill(   BillFormData form)
+        {
+            // Manually handle file data in form.Files
+            // Deserialize JSON data if needed
+            var result = form;
+
+
+            return RedirectToAction("Index", "Home");
         }
 
         public IActionResult yourBills()

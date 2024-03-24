@@ -21,31 +21,31 @@
             <div class="row mb-3">
                 <label for="description" class="col-sm-2 col-form-label">رقم اللوحة</label>
                 <div class="col-sm-10">
-                    <input type="text" class="form-control" asp-for="carData.PlateNum" disabled>
+                    <input type="text" class="form-control" asp-for="carData.PlateNum" id="plateNum" disabled>
                 </div>
             </div>
             <div class="row mb-3">
                 <label for="location" class="col-sm-2 col-form-label">الماركة</label>
                 <div class="col-sm-10">
-                    <input type="text" class="form-control" asp-for="carData.Brand" disabled>
+                    <input type="text" class="form-control" asp-for="carData.Brand" id="brand" disabled>
                 </div>
             </div>
             <div class="row mb-3">
                 <label for="date" class="col-sm-2 col-form-label">اللون</label>
                 <div class="col-sm-10">
-                    <input type="text" class="form-control" asp-for="carData.Color" disabled>
+                    <input type="text" class="form-control" asp-for="carData.Color" id="color" disabled>
                 </div>
             </div>
             <div class="row mb-3">
                 <label class="col-sm-2 col-form-label">رمز السيارة</label>
                 <div class="col-sm-10">
-                    <input type="text" class="form-control" asp-for="carData.Symbol" disabled>
+                    <input type="text" class="form-control" asp-for="carData.Symbol" id="symbol" disabled>
                 </div>
             </div>
             <div class="row mb-3">
                 <label for="imageUpload" class="col-sm-2 col-form-label">السائق</label>
                 <div class="col-sm-10">
-                    <input type="text" class="form-control" asp-for="carData.driverName" disabled>
+                    <input type="text" class="form-control" asp-for="carData.driverName" id="driverName" disabled>
                 </div>
             </div>
 
@@ -55,7 +55,7 @@
                 <label for="imageUpload" class="col-sm-2 col-form-label">اخر قراءة عداد</label>
                 <div class="col-sm-10">
                     <div class="d-flex justify-content-center" style="text-align: center;">
-                        <input type="text" class="form-control" asp-for="carData.LastReading" disabled>
+                        <input type="text" class="form-control" asp-for="carData.LastReading" id="lastReading" disabled>
                     </div>
                 </div>
             </div>
@@ -63,73 +63,54 @@
             <div class="row mb-3">
                 <label for="imageUpload" class="col-sm-2 col-form-label">قراءة العداد الحالية</label>
                 <div class="col-sm-10">
-                    <input type="text" class="form-control" asp-for="additionBillData.currentReading">
+                    <input type="text" class="form-control" asp-for="additionBillData.currentReading" id="currentReading">
                 </div>
             </div>
 
             <div class="row mb-3">
                 <label for="imageUpload" class="col-sm-2 col-form-label">ملاحظات</label>
                 <div class="col-sm-10">
-                    <input type="text" class="form-control" asp-for="additionBillData.comment">
+                    <input type="text" class="form-control" asp-for="additionBillData.comment" id="comment">
                 </div>
             </div>
 
             <div class="row mb-3">
                 <label for="imageUpload" class="col-sm-2 col-form-label">فترة الصيانة</label>
                 <div class="col-sm-10">
-                    <input type="text" class="form-control" asp-for="additionBillData.maintancePeriod" *@>
+                    <input type="text" class="form-control" asp-for="additionBillData.maintancePeriod" id="maintancePeriod">
+                </div>
+            </div>
+
+            <div class="row mb-3">
+                <label for="imageUpload" class="col-sm-2 col-form-label">فيديو</label>
+                <div class="col-sm-10">
+                    <input class="form-control" type="file" asp-for="additionBillData.videoInFormFile" id="fileInput">
                 </div>
             </div>
 
             <div class="row mb-3">
                 <label for="imageUpload" class="col-sm-2 col-form-label">نوع قسم الصيانة</label>
                 <div class="col-sm-10">
-                    @* <select class="form-control" id="roleDropdown">
-                        @foreach (var item in Model.cats)
-                        {
-                            <option value="@item.Id">@item.Name</option>
-                        }
-                    </select> *@
                     <select class="form-control" id="categoryDropdown">
-                        @foreach (var item in Model.cats)
+                        @* @foreach (var item in Model.cats)
                         {
                             <option value="@item.Id">@item.Name</option>
+                        } *@
+                        @for(int i = 0; i < Model.cats.Count; i++)
+                        {
+                            if(i == 0)
+                            {
+                                <option value="">اختر النوع</option>
+                                <option value="@Model.cats[i].Id">@Model.cats[i].Name</option>
+                            }else
+                            {
+                                <option value="@Model.cats[i].Id">@Model.cats[i].Name</option>
+                            }
                         }
                     </select>
                 </div>
             </div>
             
-            @* <table class="table table-hover" style="margin-bottom: 50px;">
-                <thead>
-                    <tr class="table-warning">
-                        <th scope="col">الاسم</th>
-                        <th scope="col">سعر القطعة</th>
-                        <th style="text-align: center;" scope="col">سعر مصنعية التركيب</th>
-                        <th style="text-align: center;" scope="col">صورة مصغرة</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach (var item in Model.sparePartsWithCat)
-                    {
-                        <tr>
-                            <td style="font-size: 16px; font-weight: bold;">@item.Name</td>
-
-                            <td style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 100px;">
-                                @item.Price
-                            </td>
-
-                            <td style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 150px; text-align: center;">
-                                @item.PriceOfInstaling
-                            </td>
-
-                            <td class="d-flex justify-content-center align-items-center" style="text-align: center;">
-                                <img src="/images/@item.ImageUrl" alt="@item.Name" style="max-height: 50px; max-width: 50px;">
-                            </td>
-                        </tr>
-                    }
-                </tbody>
-            </table>
-            *@
             <table class="table table-hover" id="sparePartsTable" style="margin-bottom: 50px;">
                 <thead>
                     <tr class="table-warning">
@@ -153,6 +134,8 @@
                         <th scope="col">سعر القطعة</th>
                         <th scope="col">سعر مصنعية التركيب</th>
                         <th scope="col">السعر الإجمالي</th>
+                        <th scope="col">تحميل صور للقطعة بعد التركيب</th>
+                        <th scope="col">حذف</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -162,7 +145,7 @@
             @* //////////////////////////// *@
             <div id="totalsContainer">
                 <div class="row mb-3">
-                    <label for="totalAmount" class="col-sm-2 col-form-label">الاجمالي</label>
+                    <label asp-for="additionBillData.totalAmount" class="col-sm-2 col-form-label">الاجمالي</label>
                     <div class="col-sm-10">
                         <input type="text" class="form-control" id="totalAmount" disabled>
                     </div>
@@ -174,7 +157,7 @@
                     </div>
                 </div>
                 <div class="row mb-3">
-                    <label for="discountRate" class="col-sm-2 col-form-label">نسبه خصم</label>
+                    <label asp-for="additionBillData.discountRate" class="col-sm-2 col-form-label">نسبه خصم</label>
                     <div class="col-sm-10">
                         <input type="number" class="form-control" id="discountRate" placeholder="Enter discount rate">
                     </div>
@@ -193,6 +176,10 @@
                 </div>
             </div>
 
+            @* ////////////////////////////////////////////////////// *@
+             @* <input class="form-control" type="file" asp-for="additionBillData.videoInFormFile" id="fileInput" multiple> *@
+            @* <input class="form-control" type="file" asp-for="additionBillData.billRows[].PhotosInFormFiles" id="fileInput" multiple>
+            '<input asp-for="additionBillData.billRows[' + i + '].PhotosInFormFiles" type="hidden value="DefaultUserName" />' + *@
 
         </form>
 
@@ -201,23 +188,19 @@
     </div>
 </div>
 
-@* script for when the user click on show car data takes us to the right URL *@
 <script>
-    document.getElementById('showCarData').addEventListener('click', function () {
-        var carCode = document.getElementById('carCode').value;
-        if (carCode) { // Check if the car code is not empty
-            window.location.href = '/Home/ShowCarData/' + encodeURIComponent(carCode);
-        } else {
-            alert('Please enter the car code.'); // Alert the user to enter the car code
-        }
-    });
-</script>
+        document.getElementById('showCarData').addEventListener('click', function () {
+            var carCode = document.getElementById('carCode').value;
+            if (carCode) { // Check if the car code is not empty
+                window.location.href = '/Home/ShowCarData/' + encodeURIComponent(carCode);
+            } else {
+                alert('Please enter the car code.'); // Alert the user to enter the car code
+            }
+        });
 
 
-@* when the user select from category the spare parts will update *@
-<script>
-    document.getElementById('categoryDropdown').addEventListener('change', function () {
-        var categoryId = this.value;
+         document.getElementById('categoryDropdown').addEventListener('change', function () {
+             var categoryId = this.value;
 
         // Make an AJAX request to fetch spare parts related to the selected category
         fetch('/Home/GetSparePartsByCategory?categoryId=' + categoryId)
@@ -227,7 +210,9 @@
                 var tbody = document.querySelector('#sparePartsTable tbody');
                 tbody.innerHTML = '';
 
-                data.forEach(function (item) {
+                // Converted forEach to a standard for loop
+                for (var i = 0; i < data.length; i++) {
+                    var item = data[i];
                     var row = '<tr>' +
                         '<td style="font-size: 16px; font-weight: bold;">' + item.name + '</td>' +
                         '<td style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 100px;">' + item.price + '</td>' +
@@ -237,46 +222,67 @@
                         '</td>' +
                         '</tr>';
                     tbody.innerHTML += row;
-                });
+                }
             })
             .catch(error => console.error('Error fetching spare parts:', error));
-    });
- 
-    // when the user click on the product add in the bill
-    document.querySelector('#sparePartsTable tbody').addEventListener('click', function (event) {
-        calculateTotals()
-        // Check if the clicked element is a row inside the tbody
-        var row = event.target.closest('tr');
-        if (row) {
-            var name = row.cells[0].innerText;
-            var price = parseFloat(row.cells[1].innerText);
-            var priceOfInstaling = parseFloat(row.cells[2].innerText);
-            
 
-            // Check if the item is already added
-            var existingRow = document.querySelector('#selectedSparePartsTable tbody tr[data-name="' + name + '"]');
-            if (existingRow) {
-                // Increase the quantity if the item is already added
-                var qtyInput = existingRow.querySelector('.qty-input');
-                qtyInput.value = parseInt(qtyInput.value) + 1;
-                updateRowTotalPrice(existingRow);
-            } else {
-                // Add new row to the selectedSparePartsTable
-                var tbody = document.querySelector('#selectedSparePartsTable tbody');
-                var newRow = '<tr data-name="' + name + '">' +
-                    '<td>' + name + '</td>' +
-                    '<td><input type="number" class="form-control qty-input" value="1" min="1" style="width: 60px;"></td>' +
-                    '<td>' + price.toFixed(2) + '</td>' +
-                    '<td>' + priceOfInstaling.toFixed(2) + '</td>' +
-                    '<td class="total-price"></td>' +
-                    '</tr>';
-                tbody.innerHTML += newRow;
-                updateRowTotalPrice(tbody.lastElementChild);
-                //calculateTotals();
-            }
+         });
+
+         
+
+        document.addEventListener('DOMContentLoaded', function () {
+            // Attach click event to the rows in the spare parts table to add them to the selected spare parts table
+            document.querySelector('#sparePartsTable tbody').addEventListener('click', function (event) {
+                // Ensure we're clicking on a row
+                var target = event.target.closest('tr');
+                if (!target) return; // Exit if not clicking on a row
+
+                var name = target.cells[0].innerText;
+                var price = parseFloat(target.cells[1].innerText);
+                var priceOfInstaling = parseFloat(target.cells[2].innerText);
+
+                // Function to add the clicked spare part to the selected spare parts table
+                addToSelectedSpareParts(name, price, priceOfInstaling);
+            });
+
+            // Attach change event to dynamically listen for changes in quantity inputs in the selected spare parts table
+            document.addEventListener('change', function (event) {
+                if (event.target.matches('.qty-input')) {
+                    updateRowTotalPrice(event.target.closest('tr')); // Update total price for the row
+                    calculateTotals(); // Recalculate totals for all items
+                }
+            });
+
+            // Recalculate totals when the discount rate changes
+            document.getElementById('discountRate').addEventListener('change', calculateTotals);
+        });
+
+    function addToSelectedSpareParts(name, price, priceOfInstaling) {
+        var tbody = document.querySelector('#selectedSparePartsTable tbody');
+        var existingRow = tbody.querySelector(`tr[data-name="${name}"]`);
+
+        if (existingRow) {
+            var qtyInput = existingRow.querySelector('.qty-input');
+            qtyInput.value = parseInt(qtyInput.value) + 1;
+            updateRowTotalPrice(existingRow);
+        } else {
+            var newRow = document.createElement('tr');
+            newRow.setAttribute('data-name', name);
+            newRow.innerHTML = `
+            <td>${name}</td>
+            <td><input type="number" class="form-control qty-input" value="1" min="1" style="width: 60px;"></td>
+            <td>${price.toFixed(2)}</td>
+            <td>${priceOfInstaling.toFixed(2)}</td>
+            <td class="total-price"></td>
+                <td><input type="file" class="form-control spare-part-image" accept="image/*" multiple></td>
+            <td><button class="btn btn-danger remove-btn">ازالة</button></td> <!-- Add this line -->
+        `;
+            tbody.appendChild(newRow);
+            updateRowTotalPrice(newRow);
         }
-    });
 
+        calculateTotals();
+    }
 
     function updateRowTotalPrice(row) {
         var qty = parseInt(row.querySelector('.qty-input').value);
@@ -286,44 +292,168 @@
         row.querySelector('.total-price').innerText = totalPrice.toFixed(2);
     }
 
-    // Event listener for quantity change
-    document.addEventListener('change', function (e) {
-        if (e.target && e.target.matches('.qty-input')) {
-            var row = e.target.closest('tr');
-            updateRowTotalPrice(row);
-        }
-    });
-
     function calculateTotals() {
-        let totalAmount = 0;
-        let installationFees = 0;
-
-        // Iterate over each row in the selectedSparePartsTable to calculate the total
+        let totalAmount = 0, installationFees = 0;
         document.querySelectorAll('#selectedSparePartsTable tbody tr').forEach(row => {
             const qty = parseInt(row.querySelector('.qty-input').value);
             const price = parseFloat(row.cells[2].innerText);
-            const installationFee = parseFloat(row.cells[3].innerText);
-
+            const priceOfInstaling = parseFloat(row.cells[3].innerText);
             totalAmount += qty * price;
-            installationFees += qty * installationFee;
+            installationFees += qty * priceOfInstaling;
         });
 
         const total = totalAmount + installationFees;
         document.getElementById('totalAmount').value = total.toFixed(2);
         document.getElementById('installationFees').value = installationFees.toFixed(2);
 
-        // Calculate discount and net amount
+        // Calculate discount and net amount based on the total and discount rate
         const discountRate = parseFloat(document.getElementById('discountRate').value) || 0;
         const discountAmount = total * (discountRate / 100);
         const netAmount = total - discountAmount;
-
         document.getElementById('netAmount').value = netAmount.toFixed(2);
     }
 
-    // Listen for changes in the discount rate to recalculate totals
-    document.getElementById('discountRate').addEventListener('change', calculateTotals);
+    document.addEventListener('DOMContentLoaded', function () {
+        // Existing setup code...
 
-    // You should also call calculateTotals() after updatingRowTotalPrice() in your existing script
+        // Add event listener for dynamically added remove buttons
+        document.querySelector('#selectedSparePartsTable tbody').addEventListener('click', function (event) {
+            if (event.target.matches('.remove-btn')) {
+                removeProductRow(event.target.closest('tr'));
+            }
+        });
+    });
+
+    function removeProductRow(row) {
+        row.remove(); // Remove the product row
+        calculateTotals(); // Recalculate totals after removal
+    }
+
+
+    // this js part is to add attributes names to could arrive to data from the second table while requesting the http post endpoint =>
+    document.addEventListener('DOMContentLoaded', function () {
+        const form = document.querySelector('form'); // Adjust if you have a specific form identifier
+        // testing by printing in the console
+        console.log(document.getElementById('fileInput'));
+        //
+        form.addEventListener('submit', function (event) {
+            event.preventDefault(); // Prevent the normal form submission
+            
+
+            // Start constructing the BillFormData object
+            let billFormData = {
+                carData: {
+                    Id: document.getElementById('carCode').value, // Example: Adjust the id as per your input field
+                    PlateNum: document.getElementById('plateNum').value, // Adjust the id
+                    Brand: document.getElementById('brand').value, // Adjust the id
+                    Color: document.getElementById('color').value, // Adjust the id
+                    Symbol: document.getElementById('symbol').value, // Adjust the id
+                    driverName: document.getElementById('driverName').value, // Adjust the id
+                    LastReading: document.getElementById('lastReading').value, // Adjust the id
+                },
+                additionBillData: {
+                    billRows: [],
+                    comment: document.getElementById('comment').value, // Adjust the id
+                    currentReading: document.getElementById('currentReading').value, // Adjust the id
+                    maintancePeriod: document.getElementById('maintancePeriod').value, // Adjust the id
+                    totalAmount: parseFloat(document.getElementById('totalAmount').value), // This should be a static id
+                    discountRate: parseInt(document.getElementById('discountRate').value), // This should be a static id
+                    videoInFormFile: document.getElementById('fileInput').files[0], // Adjust the id, assuming single file upload
+                },
+                cats: [] // Assuming you have a way to populate this based on your category dropdown
+            };
+            // Dynamically add bill rows
+            document.querySelectorAll('#selectedSparePartsTable tbody tr').forEach(row => {
+                const billRowWithImagesForm = {
+                    billRowId: 0, // Assuming new entries don't have an ID yet
+                    amount: parseInt(row.querySelector('.qty-input').value),
+                    total_priceForBillRow: parseFloat(row.querySelector('.total-price').innerText),
+                    billId: 0, // Assuming this is set server-side
+                    sparePartId: parseInt(row.dataset.sparePartId), // Make sure your row has data-sparePartId attribute
+                    PhotosInFormFiles: [] // This will be handled separately due to file handling
+                };
+
+                // Handle file inputs separately due to complexity
+                const files = row.querySelector('.spare-part-image').files;
+                for (let i = 0; i < files.length; i++) {
+                    billRowWithImagesForm.PhotosInFormFiles.push(files[i]);
+                }
+
+                billFormData.additionBillData.billRows.push(billRowWithImagesForm);
+            });
+
+            // Now, prepare the FormData to include files
+            const formData = new FormData();
+            formData.append('billFormData', JSON.stringify(billFormData, (key, value) => {
+                if (key !== "PhotosInFormFiles" && key !== "videoInFormFile") return value;
+            }));
+
+            // Append files separately
+            billFormData.additionBillData.billRows.forEach((row, index) => {
+                row.PhotosInFormFiles.forEach((file, fileIndex) => {
+                    formData.append(`billRows[${index}].PhotosInFormFiles[${fileIndex}]`, file);
+                });
+            });
+            if (billFormData.additionBillData.videoInFormFile) {
+                formData.append('videoInFormFile', billFormData.additionBillData.videoInFormFile);
+            }
+
+            // Example fetch to send the FormData
+            fetch('/Home/SaveNewBill', {
+                method: 'POST',
+                body: formData,
+            })
+                .then(response => response.json())
+                .then(response => {
+                    // Check if the response's content type is JSON
+                    const contentType = response.headers.get("content-type");
+                    if (contentType && contentType.includes("application/json")) {
+                        return response.json();
+                    } else {
+                        // Not JSON, read text to see what went wrong
+                        return response.text().then(text => {
+                            throw new Error('Expected JSON response, got: ' + text);
+                        });
+                    }
+                })
+                .then(data => {
+                    console.log(data);
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                });
+        });
+    });
+
+
+
+    //////////////////////////////////////////////
+    // fetch('/Home/GetSparePartsByCategory?categoryId=' + categoryId)
+    //     .then(response => response.json())
+    //     .then(data => {
+    //         // Update the spare parts table with the fetched data
+    //         var tbody = document.querySelector('#sparePartsTable tbody');
+    //         tbody.innerHTML = '';
+
+    //         // Converted forEach to a standard for loop
+    //         for (var i = 0; i < data.length; i++) {
+    //             var item = data[i];
+    //             var row = '<tr>' +
+    //                 '<td style="font-size: 16px; font-weight: bold;">' + item.name + '</td>' +
+    //                 '<td style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 100px;">' + item.price + '</td>' +
+    //                 '<td style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 150px; text-align: center;">' + item.priceOfInstaling + '</td>' +
+    //                 '<td class="d-flex justify-content-center align-items-center" style="text-align: center;">' +
+    //                 '<img src="/images/' + item.imageUrl + '" alt="..." style="max-height: 50px; max-width: 50px;">' +
+    //                 '</td>' +
+    //                 '</tr>';
+    //             tbody.innerHTML += row;
+    //         }
+    //     })
+    //     .catch(error => console.error('Error fetching spare parts:', error));
+
+    //          });
+
+
 
 </script>
 

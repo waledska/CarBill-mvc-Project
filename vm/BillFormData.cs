@@ -20,15 +20,14 @@ namespace CarBill.vm
         public string comment { get; set; }
         public string currentReading { get; set; }
         public string maintancePeriod { get; set; }
-        public decimal totalPrice { get; set; }
-        public int discountPrecentage { get; set; }
+        public decimal totalAmount { get; set; }
+        public int discountRate { get; set; }
         public FormFile videoInFormFile { get; set; }
         
     }
     public class BillFormData
     {
         public Car carData { get; set; }
-        public List<SparePart> sparePartsWithCat { get; set; }
         public AdditionBillData additionBillData { get; set; }
         public List<MaintananceType> cats { get; set; }
     }
