@@ -214,7 +214,7 @@
                 for (var i = 0; i < data.length; i++) {
                     var item = data[i];
                     var row = '<tr>' +
-                        '<td style="font-size: 16px; font-weight: bold;">' + item.name + '</td>' +
+                        '<td data-id =' + item.id + ' style="font-size: 16px; font-weight: bold;">' + item.name + '</td>' +
                         '<td style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 100px;">' + item.price + '</td>' +
                         '<td style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 150px; text-align: center;">' + item.priceOfInstaling + '</td>' +
                         '<td class="d-flex justify-content-center align-items-center" style="text-align: center;">' +
@@ -238,11 +238,13 @@
                 if (!target) return; // Exit if not clicking on a row
 
                 var name = target.cells[0].innerText;
+                var IdForSparePart = target.cells[0].dataset.id;
                 var price = parseFloat(target.cells[1].innerText);
                 var priceOfInstaling = parseFloat(target.cells[2].innerText);
 
+
                 // Function to add the clicked spare part to the selected spare parts table
-                addToSelectedSpareParts(name, price, priceOfInstaling);
+                addToSelectedSpareParts(name, price, priceOfInstaling, IdForSparePart);
             });
 
             // Attach change event to dynamically listen for changes in quantity inputs in the selected spare parts table
@@ -257,9 +259,10 @@
             document.getElementById('discountRate').addEventListener('change', calculateTotals);
         });
 
-    function addToSelectedSpareParts(name, price, priceOfInstaling) {
+    function addToSelectedSpareParts(name, price, priceOfInstaling, IdForSparePart) {
+
         var tbody = document.querySelector('#selectedSparePartsTable tbody');
-        var existingRow = tbody.querySelector(`tr[data-name="${name}"]`);
+        var existingRow = tbody.querySelector(`tr[data-id="${IdForSparePart}"]`); // Use the data-id attribute to find the row
 
         if (existingRow) {
             var qtyInput = existingRow.querySelector('.qty-input');
@@ -267,15 +270,15 @@
             updateRowTotalPrice(existingRow);
         } else {
             var newRow = document.createElement('tr');
-            newRow.setAttribute('data-name', name);
+            newRow.setAttribute('data-id', IdForSparePart); // Set the data-id attribute for the new row
             newRow.innerHTML = `
             <td>${name}</td>
             <td><input type="number" class="form-control qty-input" value="1" min="1" style="width: 60px;"></td>
             <td>${price.toFixed(2)}</td>
             <td>${priceOfInstaling.toFixed(2)}</td>
             <td class="total-price"></td>
-                <td><input type="file" class="form-control spare-part-image" accept="image/*" multiple></td>
-            <td><button class="btn btn-danger remove-btn">ازالة</button></td> <!-- Add this line -->
+            <td><input type="file" class="form-control spare-part-image" accept="image/*" multiple></td>
+            <td><button class="btn btn-danger remove-btn">ازالة</button></td>
         `;
             tbody.appendChild(newRow);
             updateRowTotalPrice(newRow);
@@ -283,6 +286,7 @@
 
         calculateTotals();
     }
+
 
     function updateRowTotalPrice(row) {
         var qty = parseInt(row.querySelector('.qty-input').value);
@@ -333,94 +337,61 @@
     // this js part is to add attributes names to could arrive to data from the second table while requesting the http post endpoint =>
     document.addEventListener('DOMContentLoaded', function () {
         const form = document.querySelector('form'); // Adjust if you have a specific form identifier
-        // testing by printing in the console
-        console.log(document.getElementById('fileInput'));
-        //
+
         form.addEventListener('submit', function (event) {
             event.preventDefault(); // Prevent the normal form submission
-            
 
-            // Start constructing the BillFormData object
-            let billFormData = {
-                carData: {
-                    Id: document.getElementById('carCode').value, // Example: Adjust the id as per your input field
-                    PlateNum: document.getElementById('plateNum').value, // Adjust the id
-                    Brand: document.getElementById('brand').value, // Adjust the id
-                    Color: document.getElementById('color').value, // Adjust the id
-                    Symbol: document.getElementById('symbol').value, // Adjust the id
-                    driverName: document.getElementById('driverName').value, // Adjust the id
-                    LastReading: document.getElementById('lastReading').value, // Adjust the id
-                },
-                additionBillData: {
-                    billRows: [],
-                    comment: document.getElementById('comment').value, // Adjust the id
-                    currentReading: document.getElementById('currentReading').value, // Adjust the id
-                    maintancePeriod: document.getElementById('maintancePeriod').value, // Adjust the id
-                    totalAmount: parseFloat(document.getElementById('totalAmount').value), // This should be a static id
-                    discountRate: parseInt(document.getElementById('discountRate').value), // This should be a static id
-                    videoInFormFile: document.getElementById('fileInput').files[0], // Adjust the id, assuming single file upload
-                },
-                cats: [] // Assuming you have a way to populate this based on your category dropdown
-            };
-            // Dynamically add bill rows
-            document.querySelectorAll('#selectedSparePartsTable tbody tr').forEach(row => {
-                const billRowWithImagesForm = {
-                    billRowId: 0, // Assuming new entries don't have an ID yet
-                    amount: parseInt(row.querySelector('.qty-input').value),
-                    total_priceForBillRow: parseFloat(row.querySelector('.total-price').innerText),
-                    billId: 0, // Assuming this is set server-side
-                    sparePartId: parseInt(row.dataset.sparePartId), // Make sure your row has data-sparePartId attribute
-                    PhotosInFormFiles: [] // This will be handled separately due to file handling
-                };
-
-                // Handle file inputs separately due to complexity
-                const files = row.querySelector('.spare-part-image').files;
-                for (let i = 0; i < files.length; i++) {
-                    billRowWithImagesForm.PhotosInFormFiles.push(files[i]);
-                }
-
-                billFormData.additionBillData.billRows.push(billRowWithImagesForm);
-            });
-
-            // Now, prepare the FormData to include files
             const formData = new FormData();
-            formData.append('billFormData', JSON.stringify(billFormData, (key, value) => {
-                if (key !== "PhotosInFormFiles" && key !== "videoInFormFile") return value;
-            }));
 
-            // Append files separately
-            billFormData.additionBillData.billRows.forEach((row, index) => {
-                row.PhotosInFormFiles.forEach((file, fileIndex) => {
-                    formData.append(`billRows[${index}].PhotosInFormFiles[${fileIndex}]`, file);
-                });
-            });
-            if (billFormData.additionBillData.videoInFormFile) {
-                formData.append('videoInFormFile', billFormData.additionBillData.videoInFormFile);
+            // Append simple text data
+            formData.append('carData.Id', document.getElementById('carCode').value);
+            formData.append('carData.PlateNum', document.getElementById('plateNum').value);
+            formData.append('carData.Brand', document.getElementById('brand').value);
+            formData.append('carData.Color', document.getElementById('color').value);
+            formData.append('carData.Symbol', document.getElementById('symbol').value);
+            formData.append('carData.driverName', document.getElementById('driverName').value);
+            formData.append('carData.LastReading', document.getElementById('lastReading').value);
+
+            // Append additionBillData
+            formData.append('additionBillData.comment', document.getElementById('comment').value);
+            formData.append('additionBillData.currentReading', document.getElementById('currentReading').value);
+            formData.append('additionBillData.maintancePeriod', document.getElementById('maintancePeriod').value);
+            formData.append('additionBillData.totalAmount', document.getElementById('totalAmount').value);
+            formData.append('additionBillData.discountRate', document.getElementById('discountRate').value);
+
+            // Append video file if available
+            const videoFile = document.getElementById('fileInput').files[0];
+            if (videoFile) {
+                formData.append('additionBillData.videoInFormFile', videoFile);
             }
+
+            // Dynamically add bill rows and their photos
+            document.querySelectorAll('#selectedSparePartsTable tbody tr').forEach((row, index) => {
+                formData.append(`additionBillData.billRows[${index}].amount`, row.querySelector('.qty-input').value);
+                formData.append(`additionBillData.billRows[${index}].total_priceForBillRow`, row.querySelector('.total-price').innerText);
+                // Assuming data-sparePartId stores the spare part ID
+                formData.append(`additionBillData.billRows[${index}].sparePartId`, row.dataset.id);
+
+                const filesInput = row.querySelector('.spare-part-image');
+                for (let i = 0; i < filesInput.files.length; i++) {
+                    formData.append(`additionBillData.billRows[${index}].PhotosInFormFiles[${i}]`, filesInput.files[i]);
+                }
+            });
 
             // Example fetch to send the FormData
             fetch('/Home/SaveNewBill', {
                 method: 'POST',
                 body: formData,
+                // Omit Content-Type to allow browser to set it along with the boundary
             })
                 .then(response => response.json())
-                .then(response => {
-                    // Check if the response's content type is JSON
-                    const contentType = response.headers.get("content-type");
-                    if (contentType && contentType.includes("application/json")) {
-                        return response.json();
-                    } else {
-                        // Not JSON, read text to see what went wrong
-                        return response.text().then(text => {
-                            throw new Error('Expected JSON response, got: ' + text);
-                        });
-                    }
-                })
                 .then(data => {
                     console.log(data);
+                    // Handle success response
                 })
                 .catch(error => {
                     console.error('Error:', error);
+                    // Handle error
                 });
         });
     });

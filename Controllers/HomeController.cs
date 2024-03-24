@@ -1,4 +1,5 @@
 ﻿using CarBill.bussinesData;
+using CarBill.bussinesData.Models;
 using CarBill.Models;
 using CarBill.vm;
 using Microsoft.AspNetCore.Mvc;
@@ -49,14 +50,14 @@ namespace CarBill.Controllers
         }
 
         [HttpPost]
-        public ActionResult SaveNewBill(   BillFormData form)
+        public ActionResult SaveNewBill(BillFormData form)
         {
             // Manually handle file data in form.Files
             // Deserialize JSON data if needed
             var result = form;
 
-
-            return RedirectToAction("Index", "Home");
+            //return RedirectToAction("Index", "Home");
+            return Json(new { message = "working perfect!" });
         }
 
         public IActionResult yourBills()
