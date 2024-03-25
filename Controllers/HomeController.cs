@@ -21,7 +21,6 @@ namespace CarBill.Controllers
 
         public IActionResult Index()
         {
-
             return View();
         }
 
@@ -52,7 +51,8 @@ namespace CarBill.Controllers
         [HttpPost]
         public ActionResult SaveNewBill(BillFormData form)
         {
-            // Process the form data...
+            
+
 
             // Instead of redirecting server-side, return a JSON response with the target URL
             return Json(new { redirectUrl = Url.Action("Index", "Home"), message = "Working perfect!" });
@@ -65,11 +65,6 @@ namespace CarBill.Controllers
         }
 
 
-
-        public IActionResult Privacy()
-        {
-            return View();
-        }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()

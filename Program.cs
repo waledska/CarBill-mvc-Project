@@ -1,5 +1,6 @@
 using CarBill.bussinesData;
 using CarBill.Data;
+using CarBill.vme_commerce.Services;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
@@ -25,6 +26,10 @@ namespace CarBill
 
             builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
                 .AddEntityFrameworkStores<ApplicationDbContext>();
+
+            // configure store images service 
+            builder.Services.AddScoped<ITransferPhotosToPathWithStoreService, transferPhotoToPathWithStoreService>();
+
             builder.Services.AddControllersWithViews();
 
             var app = builder.Build();
