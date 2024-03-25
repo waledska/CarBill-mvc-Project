@@ -2,8 +2,8 @@
 {
     public interface ITransferPhotosToPathWithStoreService
     {
-        string GetPhotoPath(IFormFile model);
         List<string> GetPhotosPath(List<IFormFile> model);
+        string SaveVideoFile(IFormFile videoFile);
         bool DeleteFile(string path);
     }
 }

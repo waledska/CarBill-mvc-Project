@@ -379,24 +379,32 @@
                 }
             });
 
-            // Example fetch to send the FormData
             fetch('/Home/SaveNewBill', {
                 method: 'POST',
                 body: formData
-                // Omit Content-Type to allow browser to set it along with the boundary
+                // Note: Omit Content-Type to let the browser set it along with the boundary.
             })
                 .then(response => response.json())
                 .then(data => {
-                    console.log(data);
-                    // If the server responds with a URL, redirect to that URL
-                    if (data.redirectUrl) {
-                        window.location.href = data.redirectUrl;
+                    // Check if the response is a string (error message)
+                    if (typeof data === 'string') {
+                        alert(data); // Show the error message to the user
+                    }
+                    // Otherwise, check if the response is an object containing a redirectUrl
+                    else if (data && data.redirectUrl) {
+                        window.location.href = data.redirectUrl; // Redirect to the provided URL
+                    } else if (data && data.message) {
+                        // If there's a message in the object, you can show it as an alert.
+                        // This step is optional based on whether you expect messages other than errors.
+                        alert(data.message);
                     }
                 })
                 .catch(error => {
                     console.error('Error:', error);
-                    // Handle error
+                    alert('An error occurred while processing your request.');
+                    // Handle any errors that occurred during the fetch.
                 });
+
         });
     });
 
