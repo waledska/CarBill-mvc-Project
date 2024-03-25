@@ -1,33 +1,29 @@
-﻿<h2>الفواتير السابقة...</h2>
+﻿@using CarBill.vm;
+@model List<ourBillsVm>
+
+<h2 style="margin-bottom: 50px;">الفواتير السابقة...</h2>
 
 
-
-
-@* @model List<message> *@
-
-
-<table class="table table-hover" style="margin-bottom: 650px;">
+<table class="table table-hover" style="margin-bottom: 400px;">
     <thead>
-        <tr class="row-cols-3 table-warning">
-            <th class="col-3" scope="col">رقم لوحة السيارة</th>
-            <th class="col-3" scope="col">اجمالي الفاتوره</th>
-            <th class="col-3" scope="col">اسم السائق</th>
-            <th style="text-align: center;" class="col-3" scope="col">المزيد</th>
+        <tr class="table-warning">
+            <th scope="col">اسم السائق</th>
+            <th scope="col">رقم لوحة السيارة</th>
+            <th scope="col">نسبة الخصم</th>
+            <th scope="col">اجمالي الفاتورة</th>
+            <th scope="col">اخر قراءة عداد</th>
         </tr>
     </thead>
     <tbody>
-        @* @foreach (var item in Model)
+        @foreach (var item in Model)
         {
-            <tr>
-                <td style="font-size: 14px;">@item.time</td>
-                <td>@item.name</td>
-                <td style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width:50px;">
-                    @item.Message
-                </td>
-                <td class="d-flex justify-content-center" style="text-align: center;">
-                    <a class="btn btn-primary btn-sm m-1" href="Messages_details/@item.id">التفاصيل</a>
-                </td>
-            </tr>
-        } *@
+        <tr>
+            <td style="font-size: 14px;">@item.driverName</td>
+            <td>@item.plateNum</td>
+            <td>% @item.discount</td>
+            <td>@item.totalPrice</td>
+            <td>@item.lastReading</td>
+        </tr>
+        }
     </tbody>
 </table>

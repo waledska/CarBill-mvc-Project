@@ -1,0 +1,28 @@
+﻿@using CarBill.vm;
+@model List<SparePartVm>
+
+<h2 style="margin-bottom: 50px;">قطع الغيار...</h2>
+
+<table class="table table-hover" style="margin-bottom: 200px;">
+    <thead>
+        <tr class="table-warning">
+            <th scope="col">كود القطعة</th>
+            <th scope="col">اسم القطعة</th>
+            <th scope="col">سعر القطعة</th>
+            <th scope="col">سعر مصنعية التركيب</th>
+            <th scope="col">تنتمي لقسم</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var part in Model)
+        {
+            <tr>
+                <td>@part.Id</td>
+                <td>@part.Name</td>
+                <td>@part.Price</td>
+                <td>@part.PriceOfInstaling</td>
+                <td>@part.MaintenanceTypeName</td>
+            </tr>
+        }
+    </tbody>
+</table>

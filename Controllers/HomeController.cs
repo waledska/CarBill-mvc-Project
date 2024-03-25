@@ -44,6 +44,40 @@ namespace CarBill.Controllers
             return View(billFormData);
         }
 
+        public IActionResult yourBills()
+        {
+
+            var result = _db.Bills.Include(b => b.Car).Select(r => new ourBillsVm
+            {
+                discount = r.DicountPrecentage,
+                lastReading = r.LastReading,
+                totalPrice = r.TotalPrice,
+                driverName = r.Car.driverName,
+                plateNum = r.Car.PlateNum
+
+            }).ToList();
+
+            return View(result);
+        }
+
+        public IActionResult ourSpareParts()
+        {
+            var result = _db.SpareParts
+                            .Include(s => s.Type) // Include maintenance type
+                            .OrderBy(s => s.Type.Name) // Sort by maintenance type name
+                            .Select(s => new SparePartVm
+                            {
+                                Id = s.Id,
+                                Name = s.Name,
+                                Price = s.Price,
+                                PriceOfInstaling = s.PriceOfInstaling,
+                                MaintenanceTypeName = s.Type.Name
+                            })
+                            .ToList();
+
+            return View(result);
+        }
+
         // APIs endpoint
         public ActionResult GetSparePartsByCategory(int categoryId)
         {
@@ -139,14 +173,6 @@ namespace CarBill.Controllers
             // Instead of redirecting server-side, return a JSON response with the target URL
             return Json(new { redirectUrl = Url.Action("Index", "Home"), message = "Working perfect!" });
         }
-
-        public IActionResult yourBills()
-        {
-
-            return View();
-        }
-
-
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
