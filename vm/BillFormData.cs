@@ -9,7 +9,7 @@ namespace CarBill.vm
         public decimal total_priceForBillRow { get; set; }
         public int billId { get; set; }
         public int sparePartId { get; set; }
-        public List<FormFile> PhotosInFormFiles { get; set; }
+        public List<IFormFile> PhotosInFormFiles { get; set; }
 
 
 
@@ -22,7 +22,7 @@ namespace CarBill.vm
         public string maintancePeriod { get; set; }
         public decimal totalAmount { get; set; }
         public int discountRate { get; set; }
-        public FormFile videoInFormFile { get; set; }
+        public IFormFile videoInFormFile { get; set; }
         
     }
     public class BillFormData

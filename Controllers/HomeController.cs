@@ -52,12 +52,10 @@ namespace CarBill.Controllers
         [HttpPost]
         public ActionResult SaveNewBill(BillFormData form)
         {
-            // Manually handle file data in form.Files
-            // Deserialize JSON data if needed
-            var result = form;
+            // Process the form data...
 
-            //return RedirectToAction("Index", "Home");
-            return Json(new { message = "working perfect!" });
+            // Instead of redirecting server-side, return a JSON response with the target URL
+            return Json(new { redirectUrl = Url.Action("Index", "Home"), message = "Working perfect!" });
         }
 
         public IActionResult yourBills()

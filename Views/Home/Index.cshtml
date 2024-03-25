@@ -3,7 +3,7 @@
 
 @* asp-action="addNewProject" *@
 
-<div class="card  col-8" style="margin-bottom: 70px;">
+<div class="card  col-8" style="margin-bottom: 330px;">
     <div class="card-body">
         <h5 class="card-title">فاتورة جديدة</h5>
 
@@ -53,87 +53,14 @@
                 <label for="imageUpload" class="col-sm-2 col-form-label">اخر قراءة عداد</label>
                 <div class="col-sm-10">
                     <input type="text" class="form-control" asp-for="LastReading" disabled>
-                    <div class="d-flex justify-content-center" style="text-align: center;">
-                        <button type="button" id="seeSparePartsForThisCat" class="btn btn-outline-primary btn-sm m-3">اظهار قطع الغيار لنفس قسم نوع الصيانه</button>
-                    </div>
                 </div>
             </div>
-
-
-            <div class="row mb-3">
-                <div class="col-sm-10 offset-sm-2">
-                    <button type="submit" class="btn btn-primary">انشاء الفاتورة</button>
-                </div>
-            </div>
-
-
         </form>
 
         <!-- End General Form Elements -->
 
     </div>
 </div>
-
-
-<!-- Add this script at the end of your view -->
-<script>
-    // Function to update the carousel based on selected files
-    function updateCarousel() {
-        const fileInput = document.getElementById('fileInput');
-        const carouselInner = document.querySelector('.carousel-inner');
-        const carouselIndicators = document.querySelector('.carousel-indicators');
-
-        // Clear existing carousel items
-        carouselInner.innerHTML = '';
-        carouselIndicators.innerHTML = '';
-
-        // Loop through selected files
-        for (let i = 0; i < fileInput.files.length; i++) {
-            const file = fileInput.files[i];
-
-            // Create a new carousel item for each file
-            const carouselItem = document.createElement('div');
-            carouselItem.classList.add('carousel-item');
-
-            if (i === 0) {
-                carouselItem.classList.add('active');
-            }
-
-            const image = document.createElement('img');
-            image.style.maxWidth = '200px';
-            image.style.maxHeight = '200px';
-            image.classList.add('d-block', 'w-100');
-            image.alt = '...';
-
-            // Create a new carousel indicator
-            const indicator = document.createElement('button');
-            indicator.type = 'button';
-            indicator.dataset.bsTarget = '#carouselExampleIndicators';
-            indicator.dataset.bsSlideTo = i;
-
-            if (i === 0) {
-                indicator.classList.add('active');
-            }
-
-            // Append the image to the carousel item and indicator to the indicators list
-            carouselItem.appendChild(image);
-            carouselInner.appendChild(carouselItem);
-            carouselIndicators.appendChild(indicator);
-
-            // Read the selected file and set it as the image source
-            const reader = new FileReader();
-            reader.onload = function (e) {
-                image.src = e.target.result;
-            };
-            reader.readAsDataURL(file);
-        }
-    }
-
-    // Attach the updateCarousel function to the file input's change event
-    const fileInput = document.getElementById('fileInput');
-    fileInput.addEventListener('change', updateCarousel);
-</script>
-
 
 @* script for when the user click on show car data takes us to the right URL *@
 <script>

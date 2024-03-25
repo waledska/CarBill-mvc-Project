@@ -373,21 +373,25 @@
                 formData.append(`additionBillData.billRows[${index}].sparePartId`, row.dataset.id);
 
                 const filesInput = row.querySelector('.spare-part-image');
+                console.log(filesInput.files); // Debugging line to check files
                 for (let i = 0; i < filesInput.files.length; i++) {
-                    formData.append(`additionBillData.billRows[${index}].PhotosInFormFiles[${i}]`, filesInput.files[i]);
+                    formData.append(`additionBillData.billRows[${index}].PhotosInFormFiles`, filesInput.files[i]);
                 }
             });
 
             // Example fetch to send the FormData
             fetch('/Home/SaveNewBill', {
                 method: 'POST',
-                body: formData,
+                body: formData
                 // Omit Content-Type to allow browser to set it along with the boundary
             })
                 .then(response => response.json())
                 .then(data => {
                     console.log(data);
-                    // Handle success response
+                    // If the server responds with a URL, redirect to that URL
+                    if (data.redirectUrl) {
+                        window.location.href = data.redirectUrl;
+                    }
                 })
                 .catch(error => {
                     console.error('Error:', error);
@@ -395,36 +399,6 @@
                 });
         });
     });
-
-
-
-    //////////////////////////////////////////////
-    // fetch('/Home/GetSparePartsByCategory?categoryId=' + categoryId)
-    //     .then(response => response.json())
-    //     .then(data => {
-    //         // Update the spare parts table with the fetched data
-    //         var tbody = document.querySelector('#sparePartsTable tbody');
-    //         tbody.innerHTML = '';
-
-    //         // Converted forEach to a standard for loop
-    //         for (var i = 0; i < data.length; i++) {
-    //             var item = data[i];
-    //             var row = '<tr>' +
-    //                 '<td style="font-size: 16px; font-weight: bold;">' + item.name + '</td>' +
-    //                 '<td style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 100px;">' + item.price + '</td>' +
-    //                 '<td style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 150px; text-align: center;">' + item.priceOfInstaling + '</td>' +
-    //                 '<td class="d-flex justify-content-center align-items-center" style="text-align: center;">' +
-    //                 '<img src="/images/' + item.imageUrl + '" alt="..." style="max-height: 50px; max-width: 50px;">' +
-    //                 '</td>' +
-    //                 '</tr>';
-    //             tbody.innerHTML += row;
-    //         }
-    //     })
-    //     .catch(error => console.error('Error fetching spare parts:', error));
-
-    //          });
-
-
 
 </script>
 
